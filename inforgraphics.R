@@ -5,12 +5,19 @@ library(paletter)
 library(magick)
 library(grid)
 library(showtext)
+<<<<<<< HEAD
 dir.create("images")
 dir.create("output")
 
 # get one og Steph de silva's inforgraphics
 url <- "http://rex-analytics.com/wp-content/uploads/2018/03/Copy-of-Where-does-it-live.png"
 
+=======
+
+# get one og Steph de silva's inforgraphics
+url <- "http://rex-analytics.com/wp-content/uploads/2018/03/Copy-of-Where-does-it-live.png"
+dir.create("images")
+>>>>>>> 330e2f2c177bb37468d5a4fb097c3364289121be
 png_file <- "images/Where-does-it-live.png"
 download.file(url,png_file)
 
@@ -48,11 +55,15 @@ font_add_google("Rubik","rubik")
 ## TRUE = on , FALSE = off
 showtext_auto(FALSE)
 #open a new graphics device because showtext doesn't work with Rstudio device
+
 quartz() #windows, linux might be X11()
 
 #pdf
 
 pdf("output/r_variables.pdf", width = 10, height = 20)
+
+quartz()
+
 
 grid.newpage()
 layout <- grid.layout(3,2)
@@ -72,7 +83,10 @@ grid.text("WHAT'S A\nVARIABLE IN R?" ,
                     col=colours_vector["heading"]))
 
 showtext.end()
+
 dev.off()
+
+
 
 
 

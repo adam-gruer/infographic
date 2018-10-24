@@ -49,7 +49,7 @@ names(colours_vector) <- c("stripes","background",
 
 # Store our text in a list ------------------------------------------------
 info_text <- list(main_title = "WHAT'S A\nVARIABLE IN R?",
-                  subtitle="IN R, A VARIABLE IS A TYPE OF 'OBJECT' BUT WHAT IS THAT AND HOW DOES IT WORK?"
+                  subtitle="IN R, A VARIABLE IS A TYPE OF 'OBJECT'\nBUT WHAT IS THAT AND HOW DOES IT WORK?"
                   )
 
 
@@ -69,38 +69,55 @@ pdf("output/r_variables.pdf", width = 10, height = 20)
 #open a new graphics device because showtext doesn't work with Rstudio device
 #only do this if the current device is the RStudio one
  #windows, linux might be X11()
-if(!is.na(dev.cur()["RStudioGD"])) quartz()
+#if(!is.na(dev.cur()["RStudioGD"])) quartz()
 
 
 #grid-----
 grid.newpage()
-layout <- grid.layout(3,2)
+#basic layout of orignal infographic could be 12 rows x 2 columns
+layout <- grid.layout(nrow = 12, ncol=2,
+                      heights = unit(c(10,10, rep(1,10)),
+                                     c("lines","lines",rep("null",10))))
+# grid.show.layout(layout)
 vp_base <- viewport(layout = layout, name = "base")
 pushViewport(vp_base)
 
 grid.rect(gp =  gpar(fill=colours_vector["background"]))
 
-showtext_begin()
+#showtext_begin()
+
+vp_title <- viewport(layout.pos.row = 1,
+                     layout.pos.col = 1:2,
+                     name="title")
+pushViewport(vp_title)
+
 grid.text(info_text$main_title ,
-          y=0.95,
-          vjust = 1,
+          #y=0.95,
+         # vjust = 1,
           gp = gpar(cex=4,
                     fontface="bold",
-                    fontfamily="rubik",
-                    #fontfamily="Helvetica",
+                   # fontfamily="rubik",
+                    fontfamily="Helvetica",
                     col=colours_vector["heading"]))
 
+seekViewport("base")
+
+vp_subtitle <- viewport(layout.pos.row = 2,
+                     layout.pos.col = 1:2,
+                     name="subtitle")
+pushViewport(vp_subtitle)
+
 grid.text(info_text$subtitle ,
-          y=0.85,
-          vjust = 1,
+          #y=0.95,
+          #vjust = 1,
           gp = gpar(cex=2,
                     fontface="plain",
-                    fontfamily="rubik",
-                    #fontfamily="Helvetica",
+                   # fontfamily="rubik",
+                    fontfamily="Helvetica",
                     col=colours_vector["subtitle"]))
+seekViewport("base")
 
-
-showtext_end()
+#showtext_end()
 
 if(!is.na(dev.cur()["pdf"]))  dev.off()
 

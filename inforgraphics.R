@@ -76,8 +76,8 @@ pdf("output/r_variables.pdf", width = 10, height = 20)
 grid.newpage()
 #basic layout of orignal infographic could be 12 rows x 2 columns
 layout <- grid.layout(nrow = 12, ncol=2,
-                      heights = unit(c(10,10, rep(1,10)),
-                                     c("lines","lines",rep("null",10))))
+                      heights = unit(c(8,8,2, rep(1,9)),
+                                     c("lines","lines","lines",rep("null",9))))
 # grid.show.layout(layout)
 vp_base <- viewport(layout = layout, name = "base")
 pushViewport(vp_base)
@@ -105,18 +105,44 @@ seekViewport("base")
 vp_subtitle <- viewport(layout.pos.row = 2,
                      layout.pos.col = 1:2,
                      name="subtitle")
-pushViewport(vp_subtitle)
+  pushViewport(vp_subtitle)
 
-grid.text(info_text$subtitle ,
-          #y=0.95,
-          #vjust = 1,
-          gp = gpar(cex=2,
-                    fontface="plain",
-                   # fontfamily="rubik",
-                    fontfamily="Helvetica",
-                    col=colours_vector["subtitle"]))
+      grid.text(info_text$subtitle ,
+                #y=0.95,
+                #vjust = 1,
+                gp = gpar(cex=2,
+                          fontface="plain",
+                         # fontfamily="rubik",
+                          fontfamily="Helvetica",
+                          col=colours_vector["subtitle"]))
 seekViewport("base")
 
+vp_stripes<- viewport(layout.pos.row = 3,
+                        layout.pos.col = 1:2,
+                        name="stripes")
+  pushViewport(vp_stripes)
+
+      angle <-88
+      radians <- angle * pi / 180
+      m <- tan( radians)
+      
+      
+      x1 <- seq(-1,1, by = 0.03)
+      x2  <- (1 + (x1 * m ))/m
+      xs <- as.vector(mapply(function(x,y) c(x,y), x1, x2))
+      
+      
+      grid.polyline(
+        x=xs,
+        y = rep(c(0,1),length(x1)),
+        id=rep(1:length(x1),each=2),
+        gp = gpar(lwd=1,
+                  lex=10,
+                  col=colours_vector["stripes"]),
+        name = "stripes")
+
+seekViewport("base")
+      
 #showtext_end()
 
 if(!is.na(dev.cur()["pdf"]))  dev.off()

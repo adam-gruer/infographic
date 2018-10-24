@@ -43,11 +43,14 @@ colours_vector <- create_palette(jpeg_file,
                                  number_of_colors = 6)
 #examine palette and assign labels to each colour code----
 names(colours_vector) <- c("stripes","background",
-                           "subheading","text",
+                           "subtitle","text",
                            "arrow","heading")
  
 
 # Store our text in a list ------------------------------------------------
+info_text <- list(main_title = "WHAT'S A\nVARIABLE IN R?",
+                  subtitle="IN R, A VARIABLE IS A TYPE OF 'OBJECT' BUT WHAT IS THAT AND HOW DOES IT WORK?"
+                  )
 
 
 
@@ -78,7 +81,7 @@ pushViewport(vp_base)
 grid.rect(gp =  gpar(fill=colours_vector["background"]))
 
 showtext_begin()
-grid.text("WHAT'S A\nVARIABLE IN R?" ,
+grid.text(info_text$main_title ,
           y=0.95,
           vjust = 1,
           gp = gpar(cex=4,
@@ -87,10 +90,20 @@ grid.text("WHAT'S A\nVARIABLE IN R?" ,
                     #fontfamily="Helvetica",
                     col=colours_vector["heading"]))
 
+grid.text(info_text$subtitle ,
+          y=0.85,
+          vjust = 1,
+          gp = gpar(cex=2,
+                    fontface="plain",
+                    fontfamily="rubik",
+                    #fontfamily="Helvetica",
+                    col=colours_vector["subtitle"]))
+
 
 showtext_end()
 
-dev.off()
+if(!is.na(dev.cur()["pdf"]))  dev.off()
+
 
 
 

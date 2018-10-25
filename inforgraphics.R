@@ -49,14 +49,16 @@ names(colours_vector) <- c("stripes","background",
 
 # Store our text in a list ------------------------------------------------
 info_text <- list(main_title = "WHAT'S A\nVARIABLE IN R?",
-                  subtitle="IN R, A VARIABLE IS A TYPE OF 'OBJECT'\nBUT WHAT IS THAT AND HOW DOES IT WORK?"
+                  subtitle="IN R, A VARIABLE IS A TYPE OF 'OBJECT'\nBUT WHAT IS THAT AND HOW DOES IT WORK?",
+                  subheadings=list(variables=list(row=4,text="VARIABLES"),
+                                  using_variables=list(row=7,text="USING VARIABLES"),
+                                  under_hood=list(row=9,text="BUT WHAT'S GOING ON UNDER THE HOOD?")
+                                  )
                   )
 
 
 
 ## Loading Google fonts (http://www.google.com/fonts)
-font_add_google("Lato","lato")
-font_add_google("Rubik","rubik")
 #font_add_google("Lato","lato")
 #font_add_google("Rubik","rubik")
 ## Automatically use showtext to render text
@@ -144,6 +146,37 @@ vp_stripes<- viewport(layout.pos.row = 3,
         name = "stripes")
 
 seekViewport("base")
+
+#subheadings-------
+#try to use purrr::iwalk() to iterate over list of subheadings,
+#will the environment in the anonymous function still be able to reach the current device?
+# using iwalk because i want access to the name of each item
+
+purrr::iwalk(info_text$subheadings,function(subheading,name){
+  #test iteration    
+  # print(subheading$row)
+  # print(subheading$text)
+  # print(name)
+  vp_subheading <- viewport(layout.pos.row=subheading$row,
+                            layout.pos.col = 1:2,
+                            name=paste("subheading",sep="_",name))
+  
+  pushViewport(vp_subheading)
+  
+  grid.text(subheading$text ,
+                  x=unit(1,"npc") - unit(10,"mm"),
+                  just="right",
+                  name=paste("text",sep="_",name),
+                  gp = gpar(cex=2,
+                      fontface="bold",
+                      # fontfamily="rubik",
+                      fontfamily="Helvetica",
+                      col=colours_vector["heading"]))
+  seekViewport("base")
+    
+} ) 
+
+
       
 #showtext_end()
 

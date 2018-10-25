@@ -57,6 +57,8 @@ info_text <- list(main_title = "WHAT'S A\nVARIABLE IN R?",
 ## Loading Google fonts (http://www.google.com/fonts)
 font_add_google("Lato","lato")
 font_add_google("Rubik","rubik")
+#font_add_google("Lato","lato")
+#font_add_google("Rubik","rubik")
 ## Automatically use showtext to render text
 ## TRUE = on , FALSE = off
 showtext_auto(FALSE)

@@ -45,6 +45,17 @@ colours_vector <- create_palette(jpeg_file,
 names(colours_vector) <- c("stripes","background",
                            "subtitle","text",
                            "arrow","heading")
+
+para1 <- paste("We use the word 'variable' to describe",
+               "things that can change, or that could",
+               "take multiple values. In Excel, typically",
+               "this is a column with a heading giving ",
+               "the variable name.", sep="\n")
+
+para2 <- paste("In R, it might be a column in a data frame",
+               "we access with a name or using subscripts.",
+               "Or it might be a standalone object", sep = "\n")
+
  
 
 # Store our text in a list ------------------------------------------------
@@ -53,7 +64,9 @@ info_text <- list(main_title = "WHAT'S A\nVARIABLE IN R?",
                   subheadings=list(variables=list(row=4,text="VARIABLES"),
                                   using_variables=list(row=7,text="USING VARIABLES"),
                                   under_hood=list(row=9,text="BUT WHAT'S GOING ON UNDER THE HOOD?")
-                                  )
+                                  ),
+                  paragraphs=list(para1=list(row=5, text=para1),
+                                  para2=list(row=6, text=para2))
                   )
 
 
@@ -158,7 +171,7 @@ purrr::iwalk(info_text$subheadings,function(subheading,name){
   # print(subheading$text)
   # print(name)
   vp_subheading <- viewport(layout.pos.row=subheading$row,
-                            layout.pos.col = 1:2,
+                            layout.pos.col = 2,
                             name=paste("subheading",sep="_",name))
   
   pushViewport(vp_subheading)
@@ -174,6 +187,34 @@ purrr::iwalk(info_text$subheadings,function(subheading,name){
                       col=colours_vector["heading"]))
   seekViewport("base")
     
+} ) 
+
+
+#paragraphs-------
+# use purrr::iwalk() to iterate over list of paragraphs,
+
+# using iwalk because i want access to the name of each item
+
+purrr::iwalk(info_text$paragraphs,function(paragraph,name){
+  
+  vp_paragraph <- viewport(layout.pos.row=paragraph$row,
+                            layout.pos.col = 2,
+                            name=paste("vp",sep="_",name))
+  
+  pushViewport(vp_paragraph)
+  
+  grid.text(paragraph$text ,
+            x=0.02,
+            y = 0.95,
+            just=c("left","top"),
+            name=paste("text",sep="_",name),
+            gp = gpar(cex=1,
+                      fontface="plain",
+                      # fontfamily="rubik",
+                      fontfamily="Helvetica",
+                      col=colours_vector["text"]))
+  seekViewport("base")
+  
 } ) 
 
 
